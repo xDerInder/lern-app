@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f6e5f5, #e5e5f6, #e5f5f6);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.splash-container {
+    position: relative;
+    width: 90%;
+    max-width: 1100px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 4rem;
+    box-shadow: 0 8px 32px rgba(107, 73, 132, 0.1);
+    z-index: 1;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.logo-section {
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.logo {
+    mix-blend-mode: multiply;
+    width: 200px;
+    height: auto;
+    margin-bottom: 1.5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #6b4984, #84494b);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.description-section {
+    margin-bottom: 3rem;
+}
+
+.tagline {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #6b4984;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+.sub-tagline {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+.features-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feature svg {
+    width: 32px;
+    height: 32px;
+    fill: #6b4984;
+}
+
+.feature span {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.start-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(45deg, #6b4984, #84494b);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.start-button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.start-button:hover {
+    transform: translateX(5px);
+}
+
+.background-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(107, 73, 132, 0.1), rgba(132, 73, 75, 0.1));
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Mobile Anpassungen */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .splash-container {
+        padding: 1.5rem;
+        margin: 1rem;
+        border-radius: 16px;
+    }
+
+    .logo {
+        width: 160px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .tagline {
+        font-size: 1.5rem;
+    }
+
+    .sub-tagline {
+        font-size: 1rem;
+    }
+
+    .features-section {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .start-button {
+        width: 100%;
+        justify-content: center;
+        padding: 0.875rem 1.5rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Noch kleinere Bildschirme */
+@media (max-width: 480px) {
+    .splash-container {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .tagline {
+        font-size: 1.25rem;
+    }
+
+    .feature span {
+        font-size: 0.9rem;
+    }
+
+    .start-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interaktive Übungsaufgaben für Mathematik, Physik, Chemie und Biologie">
+    <title>Übungsaufgabe | Lernplattform</title>
+    <link rel="stylesheet" href="../styles/exercise.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
+</head>
+<body>
+    <main class="exercise-container">
+        <header class="exercise-header">
+            <nav class="exercise-breadcrumb" aria-label="Navigationspfad">
+                <span id="subject-name">Fach</span> › <span id="topic-name">Thema</span>
+            </nav>
+            <button id="new-exercise" class="new-exercise-button" aria-label="Neue Aufgabe generieren">
+                Neue Aufgabe
+            </button>
+        </header>
+
+        <section id="dynamic-exercise" class="exercise-text" aria-live="polite">
+            <!-- Aufgabentext wird hier dynamisch eingefügt -->
+        </section>
+
+        <section class="input-section">
+            <div class="input-container">
+                <label class="input-label" for="solution-input">Deine Lösung:</label>
+                <div id="solution-input" 
+                     class="math-input-field" 
+                     contenteditable="true" 
+                     role="textbox"
+                     aria-label="Eingabefeld für deine Lösung"
+                     tabindex="0"></div>
+            </div>
+            
+            <!-- Mathematische Werkzeuge (nur für Mathematik-Aufgaben) -->
+            <div id="math-tools" class="math-tools" style="display: none;">
+                <h4 class="math-tools-title">Mathematische Werkzeuge</h4>
+                <div class="math-tools-grid" role="toolbar" aria-label="Mathematische Symbole">
+                    <button class="math-tool" onclick="mathInput.insertSymbol('+')" aria-label="Plus einfügen">+</button>
+                    <button class="math-tool" onclick="mathInput.insertSymbol('-')" aria-label="Minus einfügen">−</button>
+                    <button class="math-tool" onclick="mathInput.insertSymbol('\\cdot')" aria-label="Mal einfügen">×</button>
+                    <button class="math-tool" onclick="mathInput.insertSymbol('\\div')" aria-label="Geteilt einfügen">÷</button>
+                    <button class="math-tool" onclick="mathInput.insertFraction()" aria-label="Bruch einfügen">a/b</button>
+                    <button class="math-tool" onclick="mathInput.insertSymbol('\\sqrt')" aria-label="Wurzel einfügen">√</button>
+                    <button class="math-tool" onclick="mathInput.insertPower()" aria-label="Potenz einfügen">x²</button>
+                    <button class="math-tool" onclick="mathInput.insertSymbol('\\pi')" aria-label="Pi einfügen">π</button>
+                    <button class="math-tool" onclick="mathInput.insertSymbol('=')" aria-label="Gleich einfügen">=</button>
+                    <button class="math-tool" onclick="mathInput.insertSymbol('\\infty')" aria-label="Unendlich einfügen">∞</button>
+                </div>
+            </div>
+
+            <button id="check-answer" 
+                    class="check-button"
+                    aria-label="Antwort überprüfen">
+                Überprüfen
+            </button>
+        </section>
+
+        <section id="feedback" class="feedback hidden" aria-live="polite">
+            <p id="feedback-text"></p>
+            <button id="show-solution" 
+                    class="solution-button" 
+                    style="display: none;"
+                    aria-label="Zeige den vollständigen Lösungsweg an">
+                Lösungsweg anzeigen
+            </button>
+        </section>
+    </main>
+
+    <div id="solution-modal" 
+         class="modal hidden" 
+         role="dialog" 
+         aria-labelledby="solution-title"
+         aria-modal="true">
+        <div class="modal-content">
+            <header>
+                <h3 id="solution-title">Lösungsweg</h3>
+                <button class="close-modal" 
+                        aria-label="Lösungsweg schließen"
+                        title="Schließen">×</button>
+            </header>
+            <div id="solution-steps">
+                <!-- Lösungsschritte werden hier dynamisch eingefügt -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../scripts/subjects.js"></script>
+    <script src="../scripts/mathInput.js"></script>
+    <script src="../scripts/exercise.js"></script>
+</body>
+</html>

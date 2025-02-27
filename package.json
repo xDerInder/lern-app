@@ -1,0 +1,14 @@
+{
+  "name": "mathe-app",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Mathematik Übungsaufgaben Generator",
+  "main": "test-exercise.js",
+  "scripts": {
+    "test": "node test-exercise.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2"
+  }
+} 

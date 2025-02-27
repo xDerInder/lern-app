@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fachauswahl - Mathly</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/fachauswahl.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="splash-container">
+        <main class="content-wrapper">
+            <div class="logo-section">
+                <img src="../images/mathematik-logo.png" alt="Mathly Logo" class="logo">
+                <h1>Fachauswahl</h1>
+            </div>      
+
+            <div class="description">
+                <p class="tagline">Wähle dein Fach und beginne zu lernen!</p>
+                <p class="sub-tagline">Finde passende Übungen zu jedem Fach, um dir das lernen leichter zu machen.</p>
+            </div>
+
+            <div class="fach-auswahl">
+                <div class="fach-card">
+                    <div class="fach-icon">📐</div>
+                    <h3>Mathematik</h3>
+                    <p>Funktionen und Gleichungen</p>
+                    <button class="start-button" onclick="window.location.href='homepage.html?subject=mathematik'">Jetzt starten</button>
+                </div>
+
+                <div class="fach-card">
+                    <div class="fach-icon">⚡</div>
+                    <h3>Physik</h3>
+                    <p>Kräfte und Bewegungen</p>
+                    <button class="start-button" onclick="window.location.href='homepage.html?subject=physik'">Jetzt starten</button>
+                </div>
+                
+                <div class="fach-card">
+                    <div class="fach-icon">🧬</div>
+                    <h3>Biologie</h3>
+                    <p>Natur und Lebewesen</p>
+                    <button class="start-button" onclick="window.location.href='homepage.html?subject=biologie'">Jetzt starten</button>
+                </div>
+
+                <div class="fach-card">
+                    <div class="fach-icon">🧪</div>
+                    <h3>Chemie</h3>
+                    <p>Stoffe und Reaktionsgleichungen</p>
+                    <button class="start-button" onclick="window.location.href='homepage.html?subject=chemie'">Jetzt starten</button>
+                </div>
+            </div>
+        </main>
+
+        <div class="background-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <script src="../scripts/topics.js"></script>
+</body>
+</html>
