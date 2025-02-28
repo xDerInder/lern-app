@@ -97,8 +97,33 @@ body {
 .fach-card h3 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
-    color: #6b4984;
+    background: -webkit-linear-gradient(45deg, #6b4984, #84494b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
+
+#physik-h3 {
+    background: -webkit-linear-gradient(45deg, #4682B4, #6495ED);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#biologie-h3 {
+    background: -webkit-linear-gradient(45deg, #2E8B57, #3CB371);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#chemie-h3 {
+    background: -webkit-linear-gradient(45deg, #FF5733, #FFA500);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 
 .fach-card p {
     font-size: 1rem;
@@ -120,6 +145,18 @@ body {
     align-items: center;
     cursor: pointer;
     transition: all 0.2s ease;
+}
+
+#physik-button {
+    background: linear-gradient(45deg, #4682B4, #6495ED);
+}
+
+#biologie-button {
+    background: linear-gradient(45deg, #2E8B57, #3CB371);
+}
+
+#chemie-button {
+    background: linear-gradient(45deg, #FF5733, #FFA500);
 }
 
 .fach-card .start-button:hover {

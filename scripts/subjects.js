@@ -53,7 +53,6 @@ function loadSubject() {
     const logo = document.getElementById('subject-logo');
     if (logo) {
         logo.src = `../images/${subjectName}-logo.png`;
-        logo.alt = `${subject.name} Logo`;
     }
     
     // Header
