@@ -121,18 +121,32 @@ function setupEventListeners() {
 /**
  * Lädt eine neue Übungsaufgabe
  */
-async function loadExercise() {
+async function loadExercise(forceNew = false) {
+    const subject = state.subject || getUrlParameter('subject') || 'math';
+    const topic = state.topic || getUrlParameter('topic') || 'algebra';
+    const subtopic = state.subtopic || getUrlParameter('subtopic') || 'equations';
+
+    // Zeige Ladeindikator
+    elements.exerciseContainer().innerHTML = 'Lade neue Aufgabe...';
+    
+    // Setze Eingabefelder zurück
+    resetInputFields();
+    
+    // Verstecke Feedback und Lösungsbutton
+    elements.feedback().classList.add('hidden');
+    elements.showSolutionBtn().style.display = 'none';
+
     try {
-        resetExerciseState();
-        
-        const response = await fetch('/.netlify/functions/generateExercise', {
+        const response = await fetch('/api/generateExercise', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                subject: state.subject, 
-                topic: state.topic, 
-                subtopic: state.subtopic,
-                forceNew: true
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                subject,
+                topic,
+                subtopic,
+                forceNew
             })
         });
 
@@ -142,10 +156,11 @@ async function loadExercise() {
 
         state.currentExercise = await response.json();
         displayExercise(state.currentExercise);
+        setupInputField(state.currentExercise);
 
     } catch (error) {
         console.error('Fehler beim Laden der Aufgabe:', error);
-        showError('Beim Laden der Aufgabe ist ein Fehler aufgetreten.');
+        elements.exerciseContainer().innerHTML = 'Fehler beim Laden der Aufgabe. Bitte versuche es erneut.';
     }
 }
 
@@ -163,16 +178,28 @@ function displayExercise(exercise) {
  * Überprüft die eingegebene Antwort
  */
 function checkAnswer() {
-    if (!state.currentExercise) return;
-
-    const userAnswer = window.mathInput?.getLatex()?.trim().toLowerCase() || '';
-    const correctAnswer = state.currentExercise.solution.trim().toLowerCase();
+    const isMathExercise = document.getElementById('solution-input').classList.contains('hidden') === false;
+    let userAnswer;
     
-    if (userAnswer === correctAnswer) {
-        showFeedback('Richtig! Sehr gut gemacht!', 'success');
-        elements.showSolutionBtn().style.display = 'none';
+    if (isMathExercise) {
+        userAnswer = window.mathInput.getLatex();
     } else {
-        handleWrongAnswer();
+        userAnswer = document.getElementById('text-solution-input').value.trim();
+    }
+
+    if (!userAnswer) {
+        showFeedback('Bitte gib eine Antwort ein.', 'error');
+        return;
+    }
+
+    // Vergleiche die Antwort
+    const isCorrect = compareAnswers(userAnswer, state.currentExercise.solution, isMathExercise);
+    
+    if (isCorrect) {
+        showFeedback('Richtig! Gut gemacht!', 'success');
+    } else {
+        showFeedback('Das ist leider nicht korrekt. Versuche es noch einmal!', 'error');
+        elements.showSolutionBtn().style.display = 'block';
     }
 }
 
@@ -259,6 +286,152 @@ function toggleLoadingState(button, isLoading) {
     button.textContent = isLoading ? 'Lade neue Aufgabe...' : 'Neue Aufgabe';
     state.isLoading = isLoading;
 }
+
+function setupInputField(exercise) {
+    const textInput = document.getElementById('text-solution-input');
+    const mathTools = document.getElementById('math-tools');
+    
+    // Zeige immer das Textfeld
+    textInput.classList.remove('hidden');
+    
+    // Zeige die mathematischen Werkzeuge für mathematische Aufgaben
+    const isMathExercise = exercise.subject === 'math' || 
+                          exercise.requiresMathInput === true ||
+                          exercise.question.includes('\\(') ||
+                          exercise.question.includes('\\[');
+    
+    mathTools.style.display = isMathExercise ? 'block' : 'none';
+}
+
+function resetInputFields() {
+    // Reset math input
+    if (window.mathInput && window.mathInput.clearInput) {
+        window.mathInput.clearInput();
+    }
+    // Reset text input
+    document.getElementById('text-solution-input').value = '';
+}
+
+function compareAnswers(userAnswer, correctAnswer, isMathExercise) {
+    if (isMathExercise) {
+        // Für mathematische Antworten: Vergleiche LaTeX
+        return normalizeMathAnswer(userAnswer) === normalizeMathAnswer(correctAnswer);
+    } else {
+        // Für Text-Antworten: Normalisiere und vergleiche Text
+        return normalizeTextAnswer(userAnswer) === normalizeTextAnswer(correctAnswer);
+    }
+}
+
+function normalizeMathAnswer(latex) {
+    // Entferne Whitespace und normalisiere mathematische Ausdrücke
+    return latex.replace(/\s+/g, '')
+               .replace(/\\cdot/g, '*')
+               .replace(/\\times/g, '*')
+               .toLowerCase();
+}
+
+function normalizeTextAnswer(text) {
+    // Normalisiere Text-Antworten (Groß-/Kleinschreibung, Whitespace, etc.)
+    return text.toLowerCase()
+              .replace(/\s+/g, ' ')
+              .trim();
+}
+
+/**
+ * Liest einen Parameter aus der URL aus
+ * @param {string} param - Der Name des Parameters
+ * @returns {string|null} Der Wert des Parameters oder null
+ */
+function getUrlParameter(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+/**
+ * Fügt ein mathematisches Symbol an der Cursorposition ein
+ */
+function insertSymbol(symbol) {
+    const textInput = document.getElementById('text-solution-input');
+    const cursorPos = textInput.selectionStart;
+    const textBefore = textInput.value.substring(0, cursorPos);
+    const textAfter = textInput.value.substring(textInput.selectionEnd);
+    
+    // Wandle spezielle Symbole in ihre Textdarstellung um
+    let insertText = symbol;
+    switch(symbol) {
+        case '\\cdot':
+            insertText = '·';
+            break;
+        case '\\div':
+            insertText = '÷';
+            break;
+        case '\\sqrt':
+            insertText = '√';
+            break;
+        case '\\pi':
+            insertText = 'π';
+            break;
+        case '\\infty':
+            insertText = '∞';
+            break;
+    }
+    
+    textInput.value = textBefore + insertText + textAfter;
+    
+    // Setze den Cursor hinter das eingefügte Symbol
+    const newCursorPos = cursorPos + insertText.length;
+    textInput.setSelectionRange(newCursorPos, newCursorPos);
+    textInput.focus();
+}
+
+/**
+ * Fügt einen Bruch an der Cursorposition ein
+ */
+function insertFraction() {
+    const textInput = document.getElementById('text-solution-input');
+    const cursorPos = textInput.selectionStart;
+    const textBefore = textInput.value.substring(0, cursorPos);
+    const textAfter = textInput.value.substring(textInput.selectionEnd);
+    
+    const fraction = "(a/b)";
+    textInput.value = textBefore + fraction + textAfter;
+    
+    // Setze den Cursor auf die Position des "a"
+    const newCursorPos = cursorPos + 1;
+    textInput.setSelectionRange(newCursorPos, newCursorPos + 1);
+    textInput.focus();
+}
+
+/**
+ * Fügt eine Potenz an der Cursorposition ein
+ */
+function insertPower() {
+    const textInput = document.getElementById('text-solution-input');
+    const cursorPos = textInput.selectionStart;
+    const textBefore = textInput.value.substring(0, cursorPos);
+    const textAfter = textInput.value.substring(textInput.selectionEnd);
+    
+    const power = "x^(n)";
+    textInput.value = textBefore + power + textAfter;
+    
+    // Setze den Cursor auf die Position des "n"
+    const newCursorPos = cursorPos + 2;
+    textInput.setSelectionRange(newCursorPos, newCursorPos + 1);
+    textInput.focus();
+}
+
+// Füge die Funktionen dem window.mathInput Objekt hinzu
+window.mathInput = {
+    insertSymbol,
+    insertFraction,
+    insertPower,
+    clearInput: () => {
+        document.getElementById('text-solution-input').value = '';
+    },
+    getLatex: () => {
+        return document.getElementById('text-solution-input').value;
+    }
+};
 
 // Initialisierung beim Laden der Seite
 document.addEventListener('DOMContentLoaded', initializeApp); 

@@ -6,9 +6,6 @@
     <meta name="description" content="Interaktive Übungsaufgaben für Mathematik, Physik, Chemie und Biologie">
     <title>Übungsaufgabe | Lernplattform</title>
     <link rel="stylesheet" href="../styles/exercise.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
 </head>
 <body>
     <main class="exercise-container">
@@ -26,16 +23,15 @@
 
         <section class="input-section">
             <div class="input-container">
-                <label class="input-label" for="solution-input">Deine Lösung:</label>
-                <div id="solution-input" 
-                     class="math-input-field" 
-                     contenteditable="true" 
-                     role="textbox"
-                     aria-label="Eingabefeld für deine Lösung"
-                     tabindex="0"></div>
+                <label class="input-label" for="text-solution-input">Deine Lösung:</label>
+                <textarea id="text-solution-input"
+                      class="text-input-field"
+                      aria-label="Eingabefeld für deine Antwort"
+                      placeholder="Gib hier deine Antwort ein..."
+                      rows="4"></textarea>
             </div>
             
-            <div id="math-tools" class="math-tools" style="display: none;">
+            <div id="math-tools" class="math-tools">
                 <h4 class="math-tools-title">Mathematische Werkzeuge</h4>
                 <div class="math-tools-grid" role="toolbar" aria-label="Mathematische Symbole">
                     <button class="math-tool" onclick="mathInput.insertSymbol('+')" aria-label="Plus einfügen">+</button>
@@ -88,7 +84,6 @@
 
     <!-- Scripts -->
     <script src="../scripts/subjects.js"></script>
-    <script src="../scripts/mathInput.js"></script>
     <script src="../scripts/exercise.js"></script>
 </body>
 </html>
